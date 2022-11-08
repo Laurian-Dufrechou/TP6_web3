@@ -1,0 +1,17 @@
+{
+  "name": "tp6",
+  "version": "1.0.0",
+  "description": "TP6",
+  "main": "program.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node program"
+  },
+  "author": "Laurian",
+  "license": "ISC",
+  "dependencies": {
+    "figlet": "^1.5.2",
+    "fs": "0.0.1-security",
+    "table": "^6.8.1"
+  }
+}
