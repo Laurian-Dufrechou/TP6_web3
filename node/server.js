@@ -4,36 +4,30 @@
  const http = require('http');
  const fs = require("fs");
  const table = require("table");
+ const request = require('request');
+ const Table = require('table-builder');
 
  let tabDate = [];
  var app = http.createServer(function(req, res) {
  // l’entˆete de la r ́eponse : 200 = OK
+ res.writeHead(200, {'Content-Type': 'text/html; charset=utf-8'});
+ if(req.url != "/"){
+    code = req.url.split('/')[1]
+    var url = 'https://geo.api.gouv.fr/communes?codePostal='+ code+"&fields=nom,population";
+    request(url, (error, response, body ) => {
+        const communes = JSON.parse(body);
 
- const now = new Date;
- const heure = ""+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds();
- const date = ""+now.getDay()+"/"+now.getMonth()+"/"+now.getFullYear();
- tabDate.push([date + " à " + heure, req.url]);
- // les donn ́ees `aenvoyer au client en r ́eponse `aune requˆete
- if (req.url == "/save"){
-    //save des dates
-    res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
-    fs.writeFile("./horodates.json", JSON.stringify(tabDate), function (err) {
-        if (err) {
-            return console.log(err);
-        }
-        console.log("The file was saved!");
+        var headers = { "nom" : "Commune", "population": "Population"};
+
+        const tab = new Table({'class': 'some-table'})
+        .setHeaders(headers) // see above json headers section
+        .setData(communes) // see above json data section
+        .render();
+
+        res.write(tab)
+        res.end();
     });
- } else if (req.url == "/display"){
-    console.log(tabDate.length);
-    if (tabDate.length > 0) {
-        response = table.table(tabDate);
-    }
-    res.writeHead(418, {'Content-Type': 'text/plain; charset=utf-8'});
-    res.write(response)
- }else{
-    res.writeHead(200, {'Content-Type': 'text/plain; charset=utf-8'});
  }
- res.end();
  });
 
  // le serveur  ́ecoute sur le port 3000

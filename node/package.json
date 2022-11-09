@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "fs": "0.0.1-security",
-    "table": "^6.8.1"
+    "request": "^2.88.2",
+    "table": "^6.8.1",
+    "table-builder": "^2.1.1"
   }
 }
