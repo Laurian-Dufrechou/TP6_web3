@@ -18,7 +18,7 @@ continents.forEach(continent => {
     pop+= continent.population;
 }); 
 
-console.log("La population mondiale s'élève à " +pop % 10000 +" Mhabs");
+console.log("La population mondiale s'élève à " +pop % 10000 +" Mhabs.");
 
 
 const data = fs.readFileSync("./data.js", "utf8");
